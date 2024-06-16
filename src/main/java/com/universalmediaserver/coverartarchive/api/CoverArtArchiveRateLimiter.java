@@ -24,7 +24,8 @@ import java.util.concurrent.atomic.AtomicInteger;
 /**
  * There are currently no rate limiting rules in place for Cover Art Archive.
  *
- * @see https://musicbrainz.org/doc/Cover_Art_Archive/API#Rate_limiting_rules
+ * More info on <a href="https://musicbrainz.org/doc/Cover_Art_Archive/API#Rate_limiting_rules">MusicBrainz doc</a>
+ *
  * @author SurfaceS
  */
 public class CoverArtArchiveRateLimiter {
