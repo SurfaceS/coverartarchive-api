@@ -18,9 +18,9 @@ package com.universalmediaserver.coverartarchive.api.endpoint.release_group;
 
 import com.universalmediaserver.coverartarchive.api.BaseTestClass;
 import com.universalmediaserver.coverartarchive.api.endpoint.ThumbnailSize;
-import com.universalmediaserver.coverartarchive.api.schema.release.ReleaseSchema;
-import java.io.InputStream;
+import com.universalmediaserver.coverartarchive.api.schema.ResultSchema;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 import org.junit.jupiter.api.Test;
 
 /**
@@ -40,7 +40,7 @@ public class ReleaseGroupEndpointTest extends BaseTestClass {
 	@Test
 	public void testGetDetails() {
 		System.out.println("ReleaseGroupEndpoint getDetails");
-		ReleaseSchema result = client
+		ResultSchema result = client
 				.releaseGroup(RELEASE_GROUP_ID)
 				.getDetails();
 		assertParsedObject(result);
@@ -71,15 +71,16 @@ public class ReleaseGroupEndpointTest extends BaseTestClass {
 	}
 
 	/**
-	 * Test of getFrontImageData method, of class ReleaseGroupEndpoint.
+	 * Test of getFrontImageBytes method, of class ReleaseGroupEndpoint.
 	 */
 	@Test
 	public void testGetFrontImageDataWithSize() {
-		System.out.println("ReleaseGroupEndpoint getFrontImageData with size");
-		InputStream result = client
+		System.out.println("ReleaseGroupEndpoint getFrontImageBytes with size");
+		byte[] result = client
 				.releaseGroup(RELEASE_GROUP_ID)
-				.getFrontImageData(ThumbnailSize.LARGE);
+				.getFrontImageBytes(ThumbnailSize.LARGE);
 		assertNotNull(result);
+		assertTrue(result.length > 0);
 	}
 
 }

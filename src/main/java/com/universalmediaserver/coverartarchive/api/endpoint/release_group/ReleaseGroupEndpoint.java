@@ -19,8 +19,7 @@ package com.universalmediaserver.coverartarchive.api.endpoint.release_group;
 import com.universalmediaserver.coverartarchive.api.CoverArtArchiveClient;
 import com.universalmediaserver.coverartarchive.api.endpoint.Endpoint;
 import com.universalmediaserver.coverartarchive.api.endpoint.ThumbnailSize;
-import com.universalmediaserver.coverartarchive.api.schema.release.ReleaseSchema;
-import java.io.InputStream;
+import com.universalmediaserver.coverartarchive.api.schema.ResultSchema;
 
 /**
  * Release Group endpoint.
@@ -43,8 +42,8 @@ public class ReleaseGroupEndpoint extends Endpoint {
 	 *
 	 * @return Release group details.
 	 */
-	public ReleaseSchema getDetails() {
-		return client.get(RELEASE_GROUP_ENDPOINT + musicBrainzId, ReleaseSchema.class, null);
+	public ResultSchema getDetails() {
+		return client.get(RELEASE_GROUP_ENDPOINT + musicBrainzId, ResultSchema.class, null);
 	}
 
 	/**
@@ -57,6 +56,15 @@ public class ReleaseGroupEndpoint extends Endpoint {
 	}
 
 	/**
+	 * Get the image bytes that is most suitable to be called the "front" of a release group (or one of its thumbnails).
+	 *
+	 * @return the image bytes.
+	 */
+	public byte[] getFrontImageBytes() {
+		return client.getJpegBytes(RELEASE_GROUP_ENDPOINT + musicBrainzId + "/front");
+	}
+
+	/**
 	 * Get the image location that is most suitable to be called the "front" of a release group (or one of its thumbnails).
 	 *
 	 * @return the image location.
@@ -66,12 +74,12 @@ public class ReleaseGroupEndpoint extends Endpoint {
 	}
 
 	/**
-	 * Get the image data that is most suitable to be called the "front" of a release group (or one of its thumbnails).
+	 * Get the image bytes that is most suitable to be called the "front" of a release group (or one of its thumbnails).
 	 *
-	 * @return the image data.
+	 * @return the image bytes.
 	 */
-	public InputStream getFrontImageData(ThumbnailSize size) {
-		return client.getJpegStream(RELEASE_GROUP_ENDPOINT + musicBrainzId + "/front-" + size);
+	public byte[] getFrontImageBytes(ThumbnailSize size) {
+		return client.getJpegBytes(RELEASE_GROUP_ENDPOINT + musicBrainzId + "/front-" + size);
 	}
 
 }

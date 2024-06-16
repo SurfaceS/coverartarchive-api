@@ -3,7 +3,7 @@
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>com.universalmediaserver</groupId>
 	<artifactId>coverartarchive-api</artifactId>
-	<version>1.0.0</version>
+	<version>1.0.1</version>
 	<packaging>jar</packaging>
 	<name>Cover Art Archive API</name>
 	<description>A java library that makes the interaction with Cover Art Archive easy.</description>

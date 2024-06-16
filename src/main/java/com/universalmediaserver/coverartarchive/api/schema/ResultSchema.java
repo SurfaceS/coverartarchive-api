@@ -14,17 +14,17 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-package com.universalmediaserver.coverartarchive.api.schema.release;
+package com.universalmediaserver.coverartarchive.api.schema;
 
 import com.google.gson.annotations.SerializedName;
 import java.util.List;
 
 /**
- * Release Schema.
+ * Result Schema.
  *
  * @author SurfaceS
  */
-public class ReleaseSchema {
+public class ResultSchema {
 
 	@SerializedName("release")
 	private String release;

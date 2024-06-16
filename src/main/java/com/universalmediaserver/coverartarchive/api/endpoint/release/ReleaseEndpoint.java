@@ -19,8 +19,7 @@ package com.universalmediaserver.coverartarchive.api.endpoint.release;
 import com.universalmediaserver.coverartarchive.api.CoverArtArchiveClient;
 import com.universalmediaserver.coverartarchive.api.endpoint.Endpoint;
 import com.universalmediaserver.coverartarchive.api.endpoint.ThumbnailSize;
-import com.universalmediaserver.coverartarchive.api.schema.release.ReleaseSchema;
-import java.io.InputStream;
+import com.universalmediaserver.coverartarchive.api.schema.ResultSchema;
 
 /**
  * Release endpoint.
@@ -43,8 +42,8 @@ public class ReleaseEndpoint extends Endpoint {
 	 *
 	 * @return Release details.
 	 */
-	public ReleaseSchema getDetails() {
-		return client.get(RELEASE_ENDPOINT + musicBrainzId, ReleaseSchema.class, null);
+	public ResultSchema getDetails() {
+		return client.get(RELEASE_ENDPOINT + musicBrainzId, ResultSchema.class, null);
 	}
 
 	/**
@@ -57,12 +56,12 @@ public class ReleaseEndpoint extends Endpoint {
 	}
 
 	/**
-	 * Get the image data that is most suitable to be called the "front" of the release.
+	 * Get the image bytes that is most suitable to be called the "front" of the release.
 	 *
-	 * @return the image data.
+	 * @return the image bytes.
 	 */
-	public InputStream getFrontImageData() {
-		return client.getJpegStream(RELEASE_ENDPOINT + musicBrainzId + "/front");
+	public byte[] getFrontImageBytes() {
+		return client.getJpegBytes(RELEASE_ENDPOINT + musicBrainzId + "/front");
 	}
 
 	/**
@@ -75,12 +74,12 @@ public class ReleaseEndpoint extends Endpoint {
 	}
 
 	/**
-	 * Get the image data that is most suitable to be called the "front" of the release.
+	 * Get the image bytes that is most suitable to be called the "front" of the release.
 	 *
-	 * @return the image data.
+	 * @return the image bytes.
 	 */
-	public InputStream getFrontImageData(ThumbnailSize size) {
-		return client.getJpegStream(RELEASE_ENDPOINT + musicBrainzId + "/front-" + size);
+	public byte[] getFrontImageBytes(ThumbnailSize size) {
+		return client.getJpegBytes(RELEASE_ENDPOINT + musicBrainzId + "/front-" + size);
 	}
 
 	/**
@@ -93,12 +92,12 @@ public class ReleaseEndpoint extends Endpoint {
 	}
 
 	/**
-	 * Get the image data that is most suitable to be called the "back" of the release.
+	 * Get the image bytes that is most suitable to be called the "back" of the release.
 	 *
-	 * @return the image data.
+	 * @return the image bytes.
 	 */
-	public InputStream getBackImageData() {
-		return client.getJpegStream(RELEASE_ENDPOINT + musicBrainzId + "/back");
+	public byte[] getBackImageBytes() {
+		return client.getJpegBytes(RELEASE_ENDPOINT + musicBrainzId + "/back");
 	}
 
 	/**
@@ -111,12 +110,12 @@ public class ReleaseEndpoint extends Endpoint {
 	}
 
 	/**
-	 * Get the image data that is most suitable to be called the "back" of the release.
+	 * Get the image bytes that is most suitable to be called the "back" of the release.
 	 *
-	 * @return the image data.
+	 * @return the image bytes.
 	 */
-	public InputStream getBackImageData(ThumbnailSize size) {
-		return client.getJpegStream(RELEASE_ENDPOINT + musicBrainzId + "/back-" + size);
+	public byte[] getBackImageBytes(ThumbnailSize size) {
+		return client.getJpegBytes(RELEASE_ENDPOINT + musicBrainzId + "/back-" + size);
 	}
 
 	/**
@@ -129,12 +128,12 @@ public class ReleaseEndpoint extends Endpoint {
 	}
 
 	/**
-	 * Get the image data for a specific piece of artwork of the release.
+	 * Get the image bytes for a specific piece of artwork of the release.
 	 *
-	 * @return the image data.
+	 * @return the image bytes.
 	 */
-	public InputStream getImageData(Long id) {
-		return client.getJpegStream(RELEASE_ENDPOINT + musicBrainzId + "/" + id);
+	public byte[] getImageBytes(Long id) {
+		return client.getJpegBytes(RELEASE_ENDPOINT + musicBrainzId + "/" + id);
 	}
 
 	/**
@@ -147,12 +146,12 @@ public class ReleaseEndpoint extends Endpoint {
 	}
 
 	/**
-	 * Get the image data for a specific piece of artwork of the release.
+	 * Get the image bytes for a specific piece of artwork of the release.
 	 *
-	 * @return the image data.
+	 * @return the image bytes.
 	 */
-	public InputStream getImageData(Long id, ThumbnailSize size) {
-		return client.getJpegStream(RELEASE_ENDPOINT + musicBrainzId + "/" + id + "-" + size);
+	public byte[] getImageBytes(Long id, ThumbnailSize size) {
+		return client.getJpegBytes(RELEASE_ENDPOINT + musicBrainzId + "/" + id + "-" + size);
 	}
 
 }

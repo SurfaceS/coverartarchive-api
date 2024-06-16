@@ -18,9 +18,9 @@ package com.universalmediaserver.coverartarchive.api.endpoint.release;
 
 import com.universalmediaserver.coverartarchive.api.BaseTestClass;
 import com.universalmediaserver.coverartarchive.api.endpoint.ThumbnailSize;
-import com.universalmediaserver.coverartarchive.api.schema.release.ReleaseSchema;
-import java.io.InputStream;
+import com.universalmediaserver.coverartarchive.api.schema.ResultSchema;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 import org.junit.jupiter.api.Test;
 
 /**
@@ -41,7 +41,7 @@ public class ReleaseEndpointTest extends BaseTestClass {
 	@Test
 	public void testGetDetails() {
 		System.out.println("ReleaseEndpoint getDetails");
-		ReleaseSchema result = client
+		ResultSchema result = client
 				.release(RELEASE_ID)
 				.getDetails();
 		assertParsedObject(result);
@@ -72,15 +72,16 @@ public class ReleaseEndpointTest extends BaseTestClass {
 	}
 
 	/**
-	 * Test of getFrontImageData method, of class ReleaseEndpoint.
+	 * Test of getFrontImageBytes method, of class ReleaseEndpoint.
 	 */
 	@Test
 	public void testGetFrontImageDataWithSize() {
-		System.out.println("ReleaseEndpoint getFrontImageData with size");
-		InputStream result = client
+		System.out.println("ReleaseEndpoint getFrontImageBytes with size");
+		byte[] result = client
 				.release(RELEASE_ID)
-				.getFrontImageData(ThumbnailSize.ORIGINAL);
+				.getFrontImageBytes(ThumbnailSize.ORIGINAL);
 		assertNotNull(result);
+		assertTrue(result.length > 0);
 	}
 
 	/**
@@ -132,15 +133,16 @@ public class ReleaseEndpointTest extends BaseTestClass {
 	}
 
 	/**
-	 * Test of getImageData method, of class ReleaseEndpoint.
+	 * Test of getImageBytes method, of class ReleaseEndpoint.
 	 */
 	@Test
 	public void testGetImageDataWithSize() {
-		System.out.println("ReleaseEndpoint getImageData with size");
-		InputStream result = client
+		System.out.println("ReleaseEndpoint getImageBytes with size");
+		byte[] result = client
 				.release(RELEASE_ID)
-				.getImageData(IMAGE_ID, ThumbnailSize.SMALL);
+				.getImageBytes(IMAGE_ID, ThumbnailSize.SMALL);
 		assertNotNull(result);
+		assertTrue(result.length > 0);
 	}
 
 }

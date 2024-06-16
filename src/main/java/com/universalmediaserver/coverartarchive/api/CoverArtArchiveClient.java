@@ -20,9 +20,7 @@ import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.universalmediaserver.coverartarchive.api.endpoint.release.ReleaseEndpoint;
 import com.universalmediaserver.coverartarchive.api.endpoint.release_group.ReleaseGroupEndpoint;
-import java.io.ByteArrayInputStream;
 import java.io.IOException;
-import java.io.InputStream;
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.net.URLEncoder;
@@ -233,14 +231,14 @@ public class CoverArtArchiveClient {
 		return null;
 	}
 
-	private InputStream getJpegStream(int requestId, HttpRequest request) throws InterruptedException, CoverArtArchiveException {
+	private byte[] getJpegBytes(int requestId, HttpRequest request) throws InterruptedException, CoverArtArchiveException {
 		try {
 			HttpClient client = HttpClient.newBuilder().followRedirects(HttpClient.Redirect.ALWAYS).build();
 			HttpResponse<byte[]> response = client.send(request, HttpResponse.BodyHandlers.ofByteArray());
 			int statusCode = response.statusCode();
 			switch (statusCode) {
 				case 200 -> {
-					return new ByteArrayInputStream(response.body());
+					return response.body();
 				}
 				case 404 -> {
 					return null;
@@ -255,14 +253,14 @@ public class CoverArtArchiveClient {
 		}
 	}
 
-	public InputStream getJpegStream(String endpoint) {
+	public byte[] getJpegBytes(String endpoint) {
 		try {
 			HttpRequest request = getBuilder(endpoint, null).GET()
 					.setHeader("accept", "image/jpeg")
 					.build();
 			//wait until rate limiter allow it.
 			int requestId = CoverArtArchiveRateLimiter.getRequestId();
-			return getJpegStream(requestId, request);
+			return getJpegBytes(requestId, request);
 		} catch (InterruptedException ex) {
 			Thread.currentThread().interrupt();
 		} catch (CoverArtArchiveException ex) {
