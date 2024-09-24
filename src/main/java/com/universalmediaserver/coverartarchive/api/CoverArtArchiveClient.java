@@ -44,6 +44,8 @@ public class CoverArtArchiveClient {
 
 	private static final String DEFAULT_BASE_URL = "https://coverartarchive.org/";
 	private static final Gson GSON = new GsonBuilder().create();
+	private static final String ERROR = ": CoverArtArchive error";
+	private static final String ERROR_REQUEST = "Error while sending the request";
 
 	private String userAgent;
 	private String baseUrl;
@@ -185,10 +187,10 @@ public class CoverArtArchiveClient {
 			if (statusCode >= 200 && statusCode < 300) {
 				return GSON.fromJson(body, resultClass);
 			} else {
-				throw new CoverArtArchiveException(statusCode + ": CoverArtArchive error");
+				throw new CoverArtArchiveException(statusCode + ERROR);
 			}
 		} catch (IOException ex) {
-			throw new CoverArtArchiveException("Error while sending the request", ex);
+			throw new CoverArtArchiveException(ERROR_REQUEST, ex);
 		} finally {
 			CoverArtArchiveRateLimiter.setRequestEnd(requestId);
 		}
@@ -205,10 +207,10 @@ public class CoverArtArchiveClient {
 			} else if (statusCode == 404) {
 				return null;
 			} else {
-				throw new CoverArtArchiveException(statusCode + ": CoverArtArchive error");
+				throw new CoverArtArchiveException(statusCode + ERROR);
 			}
 		} catch (IOException ex) {
-			throw new CoverArtArchiveException("Error while sending the request", ex);
+			throw new CoverArtArchiveException(ERROR_REQUEST, ex);
 		} finally {
 			CoverArtArchiveRateLimiter.setRequestEnd(requestId);
 		}
@@ -217,14 +219,12 @@ public class CoverArtArchiveClient {
 	public String getRedirectLocation(String endpoint) {
 		try {
 			HttpRequest request = getBuilder(endpoint, null).GET().build();
-			try {
-				//wait until rate limiter allow it.
-				int requestId = CoverArtArchiveRateLimiter.getRequestId();
-				return getRedirectLocation(requestId, request);
-			} catch (InterruptedException ex) {
-				Thread.currentThread().interrupt();
-				return null;
-			}
+			//wait until rate limiter allow it.
+			int requestId = CoverArtArchiveRateLimiter.getRequestId();
+			return getRedirectLocation(requestId, request);
+		} catch (InterruptedException ex) {
+			Thread.currentThread().interrupt();
+			return null;
 		} catch (CoverArtArchiveException ex) {
 			Logger.getLogger(CoverArtArchiveClient.class.getName()).log(Level.SEVERE, ex.getMessage(), ex);
 		}
@@ -241,13 +241,13 @@ public class CoverArtArchiveClient {
 					return response.body();
 				}
 				case 404 -> {
-					return null;
+					return new byte[0];
 				}
 				default ->
-					throw new CoverArtArchiveException(statusCode + ": CoverArtArchive error");
+					throw new CoverArtArchiveException(statusCode + ERROR);
 			}
 		} catch (IOException ex) {
-			throw new CoverArtArchiveException("Error while sending the request", ex);
+			throw new CoverArtArchiveException(ERROR_REQUEST, ex);
 		} finally {
 			CoverArtArchiveRateLimiter.setRequestEnd(requestId);
 		}
@@ -266,7 +266,7 @@ public class CoverArtArchiveClient {
 		} catch (CoverArtArchiveException ex) {
 			Logger.getLogger(CoverArtArchiveClient.class.getName()).log(Level.SEVERE, ex.getMessage(), ex);
 		}
-		return null;
+		return new byte[0];
 	}
 
 	private HttpRequest.Builder getBuilder(String endpoint, Map<String, String> query) throws CoverArtArchiveException {
